@@ -1,0 +1,21 @@
+{
+  "name": "google_sheets_example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "MrHurniak",
+  "license": "ISC",
+  "dependencies": {
+    "date-fns": "^2.28.0",
+    "ejs": "^3.1.7",
+    "express": "^4.18.0",
+    "googleapis": "^100.0.0",
+    "nodemon": "^2.0.15",
+    "properties-reader": "^2.2.0"
+  }
+}
