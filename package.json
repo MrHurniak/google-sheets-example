@@ -20,6 +20,7 @@
     "ejs": "^3.1.7",
     "express": "^4.18.0",
     "googleapis": "^100.0.0",
+    "nodemailer": "^6.7.5",
     "nodemon": "^2.0.15",
     "properties-reader": "^2.2.0"
   }
