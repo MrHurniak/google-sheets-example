@@ -13,8 +13,10 @@ app.use(express.static('./public'));
 app.set('view engine', 'ejs');
 
 app.use('/', MainController);
-app.use((error, req, res, next) =>
-    res.status(500).render('error'));
+app.use((error, req, res, next) => {
+    console.error(error);
+    res.status(500).render('error');
+});
 
 app.listen(
     SERVER_PORT, () => console.log(`Server started on port localhost:${ SERVER_PORT }`)

@@ -14,17 +14,37 @@ const googleSheetsInstance = google.sheets({
 });
 
 const spreadsheetId = properties.get('google.spreadsheets.id');
+const range = 'Sheet1!A:F';
 
 export class GoogleSheetsService {
 
-    append({ firstName, lastName, email, phone, date }) {
-        googleSheetsInstance.spreadsheets.values.append({
+    async append({ firstName, lastName, email, phone, date }) {
+        return googleSheetsInstance.spreadsheets.values.get({
+                spreadsheetId,
+                range,
+        }).then(res => {
+            const conflictRow = this._findConflictedRow(res, email);
+            if (!conflictRow) {
+                return this._append(firstName, lastName, email, phone, date);
+            } else {
+                throw new Error('Already exists');
+            }
+        });
+
+    }
+
+    _findConflictedRow(res, email) {
+        return res.data.values?.find(row => row[2] === email && !row[6]);
+    }
+
+    _append(firstName, lastName, email, phone, date) {
+        return googleSheetsInstance.spreadsheets.values.append({
             spreadsheetId,
-            range: 'Sheet1!A:D',
+            range,
             valueInputOption: 'USER_ENTERED',
             requestBody: {
                 values: [
-                    [firstName, lastName, email, phone, date]
+                    [firstName, lastName, email, phone, date, false]
                 ]
             }
 

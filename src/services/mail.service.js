@@ -24,13 +24,13 @@ export class MailService {
         }
     });
 
-    sendNotification(params) {
-        ejs.renderFile('templates/notification.html', params)
+    async sendNotification(params) {
+        return ejs.renderFile('templates/notification.html', params)
             .then(this._sendMail);
     }
 
     _sendMail(message) {
-        this.transporter.sendMail({ ...this.generalMailOptions, html: message })
+        return this.transporter.sendMail({ ...this.generalMailOptions, html: message })
             .then(result => console.log('Email send with result:', result?.response))
             .catch(console.error);
     }

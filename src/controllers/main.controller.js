@@ -13,12 +13,12 @@ router.get('/', (request, response) => {
     response.render('index');
 });
 
-router.post('/', (request, response) => {
+router.post('/', (request, response, next) => {
     const userRequestInfo = { ...request.body };
     userRequestInfo.date = format(new Date(), DATETIME_FORMAT);
 
-    googleSheetsService.append(userRequestInfo);
-    mailService.sendNotification(userRequestInfo);
-
-    response.render('thankyou');
+    googleSheetsService.append(userRequestInfo)
+        .then(() => mailService.sendNotification(userRequestInfo))
+        .then(() => response.render('thankyou'))
+        .catch(reason => next(reason));
 });
