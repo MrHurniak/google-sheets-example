@@ -5,6 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
     <title>Inventory</title>
 </head>
 <body>
@@ -15,20 +16,32 @@
             <p class="description">Please, enter you contact information so we
                 can contact you as soon as possible</p>
         </div>
-        <form method="POST" class="inputs-container">
-            <label class="label" for="firstName">First name</label>
+        <form id="form" method="POST" class="inputs-container">
+            <label class="label required-field" for="firstName">First
+                name</label>
             <input class="input" type="text" id="firstName" name="firstName"
-                   required>
-            <label class="label" for="lastName">Last name</label>
+                   maxlength="200" required>
+            <label class="label required-field" for="lastName">Last name</label>
             <input class="input" type="text" id="lastName" name="lastName"
-                   required>
-            <label class="label" for="email">Email</label>
-            <input class="input" type="email" id="email" name="email" required>
+                   maxlength="200" required>
+            <label class="label required-field" for="email">Email</label>
+            <input class="input" type="email" id="email" name="email"
+                   maxlength="200" required>
             <label class="label" for="phone">Phone</label>
-            <input class="input" type="text" id="phone" name="phone" required>
+            <input class="input" type="text" id="phone" pattern="[0-9]*" maxlength="10" name="phone">
+            <div class="g-recaptcha" data-sitekey="<%= sitekey %>"></div>
             <input class="input submit" type="submit">
         </form>
     </div>
 </div>
 </body>
+<script>
+    const form = document.getElementById('form');
+    form.addEventListener("submit", event => {
+        if (!grecaptcha.getResponse()) {
+            event.preventDefault();
+            alert('Please check the recaptcha');
+        }
+    }, false);
+</script>
 </html>
